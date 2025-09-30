@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogocraftES - Tienda</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            color: #D4AF37;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background-color: #111;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+        header img {
+            height: 60px;
+            margin-right: 20px;
+        }
+        header h1 {
+            font-size: 2rem;
+        }
+        main {
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .product {
+            background-color: #111;
+            border: 2px solid #D4AF37;
+            border-radius: 10px;
+            padding: 10px;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .product:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #D4AF37;
+        }
+        .product img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .product button {
+            background-color: #D4AF37;
+            border: none;
+            color: #000;
+            padding: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        .product button:hover {
+            background-color: #b8932b;
+        }
+        #cart {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #111;
+            border: 2px solid #D4AF37;
+            padding: 15px;
+            border-radius: 10px;
+            width: 250px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 0 10px #D4AF37;
+        }
+        #cart h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+        #cart-items {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 10px 0;
+        }
+        #cart-items li {
+            margin-bottom: 5px;
+        }
+        #checkout {
+            background-color: #D4AF37;
+            color: #000;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+        #checkout:hover {
+            background-color: #b8932b;
+        }
+
+        /* Responsivo */
+        @media (max-width: 600px) {
+            main {
+                flex-direction: column;
+                align-items: center;
+            }
+            #cart {
+                width: 90%;
+                right: 50%;
+                transform: translateX(50%);
+                top: auto;
+                bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="c6f54ffc-9533-4a1f-a950-fcafc33c0f2c.png" alt="LogocraftES Logo">
+        <h1>LogocraftES</h1>
+    </header>
+
+    <main>
+        <div class="product">
+            <img src="https://via.placeholder.com/200x200.png?text=Producto+1" alt="Producto 1">
+            <h3>Producto 1</h3>
+            <p>Descripción breve</p>
+            <p>Precio: 10€</p>
+            <button onclick="addToCart('Producto 1', 10)">Añadir al carrito</button>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/200x200.png?text=Producto+2" alt="Producto 2">
+            <h3>Producto 2</h3>
+            <p>Descripción breve</p>
+            <p>Precio: 15€</p>
+            <button onclick="addToCart('Producto 2', 15)">Añadir al carrito</button>
+        </div>
+    </main>
+
+    <div id="cart">
+        <h2>Carrito</h2>
+        <ul id="cart-items"></ul>
+        <p>Total: <span id="total">0</span>€</p>
+        <button id="checkout" onclick="checkout()">Pagar</button>
+    </div>
+
+    <script>
+        let cart = [];
+        function addToCart(name, price) {
+            cart.push({name, price});
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const totalEl = document.getElementById('total');
+            cartItems.innerHTML = '';
+            let total = 0;
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} - ${item.price}€`;
+                cartItems.appendChild(li);
+                total += item.price;
+            });
+            totalEl.textContent = total;
+        }
+
+        function checkout() {
+            if(cart.length === 0) {
+                alert("El carrito está vacío.");
+                return;
+            }
+            let paymentInfo = "Para pagar:\n- Bizum al número: 600000000\n- Transferencia a IBAN: ES00 0000 0000 0000 0000 0000\n\nProductos:\n";
+            cart.forEach(item => paymentInfo += `${item.name} - ${item.price}€\n`);
+            paymentInfo += "\n¡Gracias por tu compra!";
+            alert(paymentInfo);
+        }
+    </script>
+</body>
+</html>
